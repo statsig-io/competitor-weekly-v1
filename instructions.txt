@@ -1,0 +1,7 @@
+#how to setup up git
+https://gist.github.com/albatrocity/1201187/5247457788890f0795a6e121275867e3551d0dc2
+
+#install packages
+pip install Scrapy
+pip install scrapy-zyte-smartproxy
+

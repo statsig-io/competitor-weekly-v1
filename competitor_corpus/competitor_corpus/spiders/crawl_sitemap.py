@@ -25,7 +25,6 @@ class CrawlSitemap(scrapy.Spider):
         with open(f'{self.file_path}/{self.file_name}.json') as f:
             self.data = json.load(f)
 
-
         with open(f'{self.file_path}/competitor_corpus_temp.json') as f:
             self.data_template = json.load(f)
 
@@ -53,7 +52,6 @@ class CrawlSitemap(scrapy.Spider):
         
         current_competitor = current_run
         competitor_name = current_competitor['company_name']
-        data_dict = self.data_template
         logging.info(f"Running this competitor: {competitor_name}")
 
         namespaces = {
@@ -62,13 +60,15 @@ class CrawlSitemap(scrapy.Spider):
         }
 
         for url in response.xpath('//sm:url', namespaces=namespaces):
+            data_dict = self.data_template.copy()
             loc = url.xpath('sm:loc/text()', namespaces=namespaces).get().strip()
             changefreq = url.xpath('sm:changefreq/text()', namespaces=namespaces).get()
             priority = url.xpath('sm:priority/text()', namespaces=namespaces).get()
             
             data_dict['page_link'] = loc
-            if "/blog" in loc:
+            if "/blog" in loc or "/tutorials" in loc:
                 data_dict['page_section'] = 'blog'
+            
             elif '/changelog' in loc or '/udpates.' in loc:
                 data_dict['page_section'] = 'updates'
 
@@ -86,7 +86,7 @@ class CrawlSitemap(scrapy.Spider):
             final_dict = {**current_competitor, **data_dict}
             self.data_list.append(final_dict.copy())
         
-        self.final_object[competitor_name] = self.data_list
+        self.final_object[competitor_name] = {"page_count": len(self.data_list), "all_pages": self.data_list}
         self.data_list = []
 
 

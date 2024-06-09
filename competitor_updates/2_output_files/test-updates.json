@@ -1,0 +1,34 @@
+{
+    "PostHog" : [{
+        "update_period": "Jun 2024",
+        "update_title": "Data warehouse enters open beta",
+        "update_category": "Data WarehouseTeam",
+        "update_span_text": "Data warehouse enters open betaData WarehouseTeamFor the past few months, we\u2019ve been building an opt-in beta forour data warehouse. Now, we\u2019re ready to support more users and have moved to an open beta.Our data warehouse enables you to import your business data and analyze it alongside your product data. This is useful if, for example, you want to chart app sign-ups against Stripe revenue, or investigate how retention correlates with account sizes.You can import data from object stores you control or using integrations we have for platforms such asStripe,Hubspot, andPostgres.Our data warehouse will be entirely free to use during the beta period, but we do plan to introduce pricing after it launches into general release. We\u2019ll give anyone on the beta plan a two week warning before pricing rolls out, so they can switch to the free plan if needed.We\u2019re actively building out features to give you better control of the volume of rows synced and stored. Ready to give it a try?Start syncingorcheck out the docs.",
+        "update_text": "For the past few months, we\u2019ve been building an opt-in beta forour data warehouse. Now, we\u2019re ready to support more users and have moved to an open beta.Our data warehouse enables you to import your business data and analyze it alongside your product data. This is useful if, for example, you want to chart app sign-ups against Stripe revenue, or investigate how retention correlates with account sizes.You can import data from object stores you control or using integrations we have for platforms such asStripe,Hubspot, andPostgres.Our data warehouse will be entirely free to use during the beta period, but we do plan to introduce pricing after it launches into general release. We\u2019ll give anyone on the beta plan a two week warning before pricing rolls out, so they can switch to the free plan if needed.We\u2019re actively building out features to give you better control of the volume of rows synced and stored. Ready to give it a try?Start syncingorcheck out the docs.",
+        "date_of_last_run": "2024-06-06"
+      },
+      {
+        "update_period": "May 2024",
+        "update_title": "HogQL now supports f-strings",
+        "update_category": "Product AnalyticsTeam",
+        "update_span_text": "HogQL now supports f-stringsProduct AnalyticsTeamHogQL now supports f-strings and, unlike in Python 3.1, you can nest them endlessly too. Check outthe PRto see how we did it!F-strings are great for inlining inlining properties if you have a lot of them, making HogQL breakdowns like this possible:f'{properties.$browser} @ {properties.$browser_version}, {properties.$os}This change also introduces an internal capability to parse HogQL snippets inside curly brackets in plain text. We're planning to use this for webhook messages, so we can do 'full HogQL', e.g.:total: {1 + 2}, status: {properties.name = 'Tom' ? 'Great guy' : 'Do not sell'}.",
+        "update_text": "HogQL now supports f-strings and, unlike in Python 3.1, you can nest them endlessly too. Check outthe PRto see how we did it!F-strings are great for inlining inlining properties if you have a lot of them, making HogQL breakdowns like this possible:f'{properties.$browser} @ {properties.$browser_version}, {properties.$os}This change also introduces an internal capability to parse HogQL snippets inside curly brackets in plain text. We're planning to use this for webhook messages, so we can do 'full HogQL', e.g.:total: {1 + 2}, status: {properties.name = 'Tom' ? 'Great guy' : 'Do not sell'}.",
+        "date_of_last_run": "2024-06-06"
+      }],
+      "Eppo" : [{
+        "update_period": "Dec 2020",
+        "update_title": "Raised Series A",
+        "update_category": "ExecTeam",
+        "update_span_text": "Raised Series AExecTeamWe took the opportunity to raise a $9M Series A, topping up our seed funding to a total $12M. The round was led by GV (formerly Google Ventures) and the Y Combinator Continuity Fund. Thanks for the support!Admire the press release",
+        "update_text": "We took the opportunity to raise a $9M Series A, topping up our seed funding to a total $12M. The round was led by GV (formerly Google Ventures) and the Y Combinator Continuity Fund. Thanks for the support!",
+        "date_of_last_run": "2024-06-06"
+      },
+      {
+        "update_period": "Dec 2020",
+        "update_title": "Lifecycle analysis",
+        "update_category": "Product AnalyticsTeam",
+        "update_span_text": "Lifecycle analysisProduct AnalyticsTeamLifecycle analysis enables you to dig deeper into your events with a breakdown of the users who performed an event into new, returning, and resurrecting users. In addition, it also shows you the churn on for the specified time period.Try it out!",
+        "update_text": "Lifecycle analysis enables you to dig deeper into your events with a breakdown of the users who performed an event into new, returning, and resurrecting users. In addition, it also shows you the churn on for the specified time period.",
+        "date_of_last_run": "2024-06-06"
+      }]
+}

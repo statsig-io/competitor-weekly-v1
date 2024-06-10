@@ -16,23 +16,10 @@ class MainRun:
         scraper = RunScraper(self.competitor_corpus)
         scraper_updates_corpus = await scraper.scrape_updates_page()
         scraper_updates_corpus_json = json.dumps(scraper_updates_corpus)
-        print('scraper_updates_corpus_json', scraper_updates_corpus)
+        # print('scraper_updates_corpus_json', scraper_updates_corpus)
 
         airops_response = await RunAirops().llm_model(scraper_updates_corpus_json)
         print('ran airops_response')
-        # self.send_updates_to_webhook(airops_response, self.webhook_url)
-
-    # def send_updates_to_webhook(self, final_object, webhook_url):
-    #     headers = {
-    #         'Content-Type': 'application/json',
-    #     }
-
-    #     response = requests.post(webhook_url, headers=headers, json=final_object)
-
-    #     if response.status_code == 200:
-    #         print(f"Successfully sent updates to webhook: {webhook_url}")
-    #     else:
-    #         print(f"Failed to send updates to webhook: {webhook_url}, Status Code: {response.status_code}, Response: {response.text}")
 
 # python3 main.py
 if __name__ == "__main__":

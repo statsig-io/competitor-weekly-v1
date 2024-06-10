@@ -1,0 +1,17 @@
+{
+   "competitors" : [
+        {
+            "company_name": "PostHog",
+            "company_website": "https://posthog.com/",
+            "company_domain" : "posthog.com",
+            "company_sitemap": "https://posthog.com/sitemap/sitemap-0.xml"
+        },
+        {
+            "company_name": "Eppo",
+            "company_website": "https://www.geteppo.com/",
+            "company_domain" : "geteppo.com",
+            "company_sitemap": "https://www.geteppo.com/sitemap.xml"
+        }
+    ]
+
+}

@@ -30,20 +30,23 @@ class MakeRequest:
                         )
                         if response.status == 200:
                             content = await response.text()
-                            print("Response Content:", content[:200])  # Print the first 200 characters of the response content
-                            return response
+                            # print("Response Content:", content[:200])
+                            return response.status, content
+                        
                         else:
-                            print(f"Failed to retrieve the page. Status code: {response.status}")
+                            print(f"Failed in Proxie Request: Failed to retrieve the page. Status code: {response.status}")
                             if response.status >= 500:
                                 raise ClientConnectionError
+            
             except ClientConnectionError as e:
                 print(f"ClientConnectionError: {e}")
                 if attempt < retries - 1:
                     print("Retrying...")
                     await asyncio.sleep(2)
                 else:
-                    print("Failed after retries. Switching to synchronous request.")
+                    print("Failed in Proxie Request: Failed after retries. Switching to synchronous request.")
                     return self.sync_proxie_request(url)
+            
             except Exception as e:
                 print(f"An error occurred: {e}")
                 if attempt == retries - 1:
@@ -66,16 +69,16 @@ class MakeRequest:
                 f"Response Code: {response.status_code}\n"
                 f"Response Headers: {response.headers}\n"
             )
-            return response
+            return response.status_code, response.content
         except Exception as e:
             print(f"An error occurred during synchronous request: {e}")
-            return None
+            return None, None
 
 
 #python3 proxie_request.py
 if __name__ == "__main__":
     async def main():
-        url = "https://updates.eppo.cloud/loadMoreNews?app_id=qZPczwWF46534&language=EN&user_id=f76eb8c9-bb3a-4a17-a566-5c40ab533ae1&publicPage=true&post=false&basePath=%2F%2Fupdates.eppo.cloud%2Fen&standaloneLogoUrl=https%3A%2F%2Fstatic.getbeamer.com%2FqZPczwWF46534%2Flogo_10694.png"  # Replace with the URL you want to test
+        url = "https://posthog.com/changelog/2024"  # Replace with the URL you want to test
         make_request = MakeRequest()
         response = await make_request.proxie_request(url)
         

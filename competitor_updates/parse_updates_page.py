@@ -18,7 +18,7 @@ class CompetitorParser:
         if section:
             divs = section.find_all('div', class_='flex gap-4')
             for div in divs:
-                # Find month and year section titles
+                # print('This is the length of ul: ', len(div))
                 section_date_month = div.find('h2', class_='!text-sm font-bold uppercase !m-0')
                 section_date_year = div.find('div', class_='text-xs font-semibold')
 
@@ -27,6 +27,7 @@ class CompetitorParser:
                 section_date = f"{month} {year}"
 
                 ul = div.find('ul', class_='list-none m-0 p-0 grid gap-y-12 flex-1 pb-12')
+                # print('This is the length of ul: ', len(ul))
                 if ul:
                     lis = ul.find_all('li')
                     for li in lis:
@@ -34,7 +35,6 @@ class CompetitorParser:
                         update['update_period'] = section_date
                         relative_div = li.find('div', class_='relative')
                         if relative_div:
-                            # Extract update title and category
                             h3 = relative_div.find('h3')
                             if h3:
                                 update['update_title'] = h3.get_text(strip=True)
@@ -42,12 +42,10 @@ class CompetitorParser:
                             if p:
                                 update['update_category'] = p.get_text(strip=True)
                             
-                            # Extract span text
                             span = relative_div.find('span')
                             if span:
                                 update['update_span_text'] = span.get_text(strip=True)
                             
-                            # Extract update text from the div with class "mt-2"
                             mt2_div = li.find('div', class_='mt-2')
                             if mt2_div:
                                 update['update_text'] = mt2_div.get_text(strip=True)
@@ -68,10 +66,7 @@ class CompetitorParser:
         soup = BeautifulSoup(content, 'html.parser')
         update = {}
 
-        # Find all <div> elements with the attribute role="listitem" using CSS selectors
         listitem_divs = soup.select('div[role="listitem"]')
-        
-        # Process each <div> element
         for div_item in listitem_divs:
             section_date = div_item.find('div', class_='featureDate').find('span')
             

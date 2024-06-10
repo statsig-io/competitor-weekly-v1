@@ -1,53 +1,55 @@
 import json
 from datetime import datetime
 import asyncio
-import aiohttp  # Import aiohttp for type checking
-
-# import files
+import aiohttp
+from aiohttp import ClientResponse, ClientSession
+from aiohttp.client_exceptions import ClientConnectionError, ServerTimeoutError
+from requests import Response
 from cred import *
 from parse_updates_page import CompetitorParser
-from proxie_request import MakeRequest  # Adjusted import to match the new file name
+from proxie_request import MakeRequest
 
 class RunScraper:
     def __init__(self, corpus_data) -> None:
         self.make_request = MakeRequest()
         self.corpus_data = corpus_data
-        self.final_object = {company: [] for company in corpus_data.keys()}  # Initialize final_object with empty lists for each company
+        self.final_object = {company: [] for company in corpus_data.keys()}
 
     async def scrape_updates_page(self):
         tasks = []
-        for company, updates_page in self.corpus_data.items():
-            tasks.append(self.process_company_updates(company, updates_page))
+        for company, item_ in self.corpus_data.items():
+            tasks.append(self.process_company_updates(company, item_["current_updates_page"]))
         
         await asyncio.gather(*tasks)
-        # self.save_updates_corpus()
+        self.save_updates_corpus()
         return self.final_object
 
     async def process_company_updates(self, company, page_link):
-        print('Running this competitor', company)
-        print('Running this update page', page_link)
+        print(f'Running this competitor: {company}')
+        print(f'Running this update page: {page_link}')
 
-        response = await self.make_request.proxie_request(page_link)
         try:
-            if isinstance(response, aiohttp.ClientResponse) and response.status == 200:
-                content = await response.text()
-            elif response is not None and response.status_code == 200:
-                content = response.text
+            response_status, response_contnet = await self.make_request.proxie_request(page_link)
+            print(f'This is the response: {response_status}')                            
+            if response_status == 200:
+                if company == 'PostHog':
+                    data_list = CompetitorParser().posthog_parse_page(response_contnet)
+                elif company == 'Eppo':
+                    data_list = CompetitorParser().eppo_parse_page(response_contnet)
+                
+                if len(data_list) >= 5:
+                    data_list = data_list[:4]
+                
+                self.final_object[company].extend(data_list)
             else:
-                print(f"Failed to retrieve the page. Status code: {response.status if isinstance(response, aiohttp.ClientResponse) else response.status_code}")
-                return
+                print(f"Failed in Process Company: Failed to retrieve the page. Status code: {response_status}")
 
-            if company == 'PostHog':
-                data_list = CompetitorParser().posthog_parse_page(content)
-            elif company == 'Eppo':
-                data_list = CompetitorParser().eppo_parse_page(content)
-            
-            if len(data_list) >= 5:
-                data_list = data_list[:4]
-            
-            self.final_object[company].extend(data_list)
+        except ClientConnectionError as e:
+            print(f"Failed in Process Company: Connection error for {company}. Error: {e}")
+        except ServerTimeoutError as e:
+            print(f"Failed in Process Company: Server timeout for {company}. Error: {e}")
         except Exception as e:
-            print(f"Failed to retrieve the page for {company}. No Response. Error: {e}")
+            print(f"Failed in Process Company: Failed to retrieve the page for {company}. No Response. Error: {e}")
 
     def save_updates_corpus(self):
         with open('2_output_files/competitor_updates_corpus.json', 'w') as f:

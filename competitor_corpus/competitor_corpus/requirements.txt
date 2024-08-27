@@ -31,7 +31,7 @@ scrapy-zyte-smartproxy==2.3.4
 service-identity==24.1.0
 six==1.16.0
 tldextract==5.1.2
-Twisted==24.3.0
+Twisted==24.7.0
 typing_extensions==4.12.1
 urllib3==2.2.1
 w3lib==2.2.0
